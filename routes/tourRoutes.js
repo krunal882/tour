@@ -33,8 +33,8 @@ router
   .route('/')
   .get(authController.protect, tourController.getAllTours)
   .post(
-    authController.protect,
-    authController.restrictTo('admin', 'lead-guide'),
+    // authController.protect,
+    // authController.restrictTo('admin', 'lead-guide'),
     tourController.createTour
   );
 
@@ -56,16 +56,16 @@ router
 
 router.patch(
   '/imageCover/:id',
-  authController.protect,
-  authController.restrictTo('admin', 'lead-guide'),
+  // authController.protect,
+  // authController.restrictTo('admin', 'lead-guide'),
   tourController.uploadTourImageCover,
   tourController.resizeTourImages,
   tourController.updateTour
 );
 router.patch(
   '/tour-images/:id',
-  authController.protect,
-  authController.restrictTo('admin', 'lead-guide'),
+  // authController.protect,
+  // authController.restrictTo('admin', 'lead-guide'),
   tourController.uploadTourImages,
   tourController.resizeTourImages,
   tourController.updateTour

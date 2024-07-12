@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
 const { promisify } = require('util');
 const crypto = require('crypto');
-const Email = require('../utils/email.js');
-const User = require('../model/userModel.js');
+const Email = require('../utils/email');
+const User = require('../model/userModel');
 
 const signToken = id => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -194,7 +194,7 @@ exports.forgotPassword = async (req, res) => {
     //   message,
     //   subject: 'Your password reset Token'
     // });
-    await new Email(user,resetUrl).sendPasswordReset()
+    await new Email(user, resetUrl).sendPasswordReset()
 
     return res.status(200).json({ message: 'Token send to email' });
   } catch (error) {
@@ -247,40 +247,41 @@ exports.restPassword = async (req, res) => {
   }
 };
 
-exports.updatePasswrod = async (req, res) => {
-  try {
-    //get user form collection
-    const user = await User.findById(req.user._id).select('+password');
+exports.
+  updatePasswrod = async (req, res) => {
+    try {
+      //get user form collection
+      const user = await User.findById(req.user._id).select('+password');
 
-    if (!user) {
-      return res.status(400).json({
-        message: 'Token is unvalid or has expired'
+      if (!user) {
+        return res.status(400).json({
+          message: 'Token is unvalid or has expired'
+        });
+      }
+
+      //check if POSTed password is correct
+      if (
+        !(await user.correctPassword(req.body.passwordCurrent, user.password))
+      ) {
+        return res.status(401).json({
+          message: 'your current password is wrong'
+        });
+      }
+
+      //if so,updatepassword
+      user.password = req.body.password;
+      user.passwordConfirm = req.body.passwordConfirm;
+      await user.save();
+
+      //log user in send ,jwt
+      createSendToken(user, 200, res);
+    } catch (error) {
+      return res.status(500).json({
+        message: 'Error while reseting password',
+        error: error.message
       });
     }
-
-    //check if POSTed password is correct
-    if (
-      !(await user.correctPassword(req.body.passwordCurrent, user.password))
-    ) {
-      return res.status(401).json({
-        message: 'your current password is wrong'
-      });
-    }
-
-    //if so,updatepassword
-    user.password = req.body.password;
-    user.passwordConfirm = req.body.passwordConfirm;
-    await user.save();
-
-    //log user in send ,jwt
-    createSendToken(user, 200, res);
-  } catch (error) {
-    return res.status(500).json({
-      message: 'Error while reseting password',
-      error: error.message
-    });
-  }
-};
+  };
 
 //only for render page
 exports.isLoggedIn = async (req, res, next) => {

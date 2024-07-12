@@ -6,7 +6,7 @@ const Tour = require('../../model/tourModel');
 const Reviews = require('../../model/reviewModel');
 const User = require('../../model/userModel');
 
-const DB = process.env.MONGODB_URL;
+const DB = 'mongodb://127.0.0.1:27017/natours';
 
 mongoose.connect(DB).then(() => console.log('DB connection successful!'));
 

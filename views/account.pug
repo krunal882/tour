@@ -53,7 +53,16 @@ block content
         .line &nbsp;
         
         .user-view__form-container
-          h2.heading-secondary.ma-bt-md Password change
+          h2.heading-secondary.ma-bt-md forgot password  ?
+          form.form.form-user-password
+            .form__group.left
+              label.form__label if you forgot your password, please click button to reset password
+              button.btn.btn--small.btn--green.btn--save-password forgot password
+
+        .line &nbsp;
+
+        .user-view__form-container
+          h2.heading-secondary.ma-bt-md Password change 
           form.form.form-user-password
             .form__group
               label.form__label(for='password-current') Current password
@@ -66,3 +75,13 @@ block content
               input#password-confirm.form__input(type='password', placeholder='••••••••', required, minlength='8')
             .form__group.right
               button.btn.btn--small.btn--green.btn--save-password Save password
+
+        .line &nbsp;
+        
+        .user-view__form-container
+          h2.heading-secondary.ma-bt-md Delete Account 
+          form.form.form-user-password
+            .form__group.left
+              label.form__label if you want to delete account please click button
+              button.btn.btn--small.btn--green.btn--save-password Delete Me
+    

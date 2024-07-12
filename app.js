@@ -8,7 +8,6 @@ const hpp = require('hpp');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
-const fileUpload = require('express-fileupload');
 
 const tourRouter = require('./routes/tourRoutes');
 
